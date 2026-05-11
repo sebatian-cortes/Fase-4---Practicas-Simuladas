@@ -1,133 +1,131 @@
-# ----------------------------------------------------------------------------
-# PROYECTO: Sistema Integral de Gestión Software FJ
-# COMPONENTE: Interfaz de Usuario Premium (UX/UI Dinámica)
+# ============================================================
+# ENTRY POINT: Sistema Integral de Gestión - Software FJ
+# PROYECTO: Sistema Integral de Gestión - Software FJ
 # AUTOR: César David Toro Fernández
-# TECNOLOGÍAS: Python 3.14 / ttkbootstrap (Customized Canvas)
-# ----------------------------------------------------------------------------
+# DESCRIPCIÓN: Punto de entrada principal del sistema. Inicializa
+#              la aplicación gráfica, ejecuta las operaciones de
+#              demostración requeridas y lanza el loop principal.
+# ============================================================
 
-import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
-from tkinter import messagebox
-import math
+from gui.app import SoftwareFJ_App
+from models.cliente import Cliente
+from models.reserva import Reserva
+from models.servicios.sala import ReservaSala
+from models.servicios.equipo import AlquilerEquipo
+from models.servicios.asesoria import AsesoriaEspecializada
+from exceptions.custom import (
+    ClienteInvalidoError,
+    ReservaInvalidaError,
+    DuracionInvalidaError,
+    ServicioNoDisponibleError,
+    ParametroFaltanteError
+)
+from services.logger import Logger
 
-class SoftwareFJ_GUI(ttk.Window):
+logger = Logger()
+
+
+def ejecutar_operaciones_demo(app: SoftwareFJ_App):
     """
-    Interfaz avanzada con fondo animado sutil y arquitectura de 
-    vistas centralizadas para Software FJ.
+    Simula 10 operaciones completas del sistema incluyendo registros
+    válidos e inválidos de clientes, servicios y reservas, demostrando
+    el manejo robusto de excepciones y la continuidad operativa del sistema.
+
+    Args:
+        app: Instancia principal de la aplicación con estado compartido.
     """
-    def __init__(self):
-        super().__init__(themename="cosmo")
-        self.title("Software FJ - Digital Experience")
-        self.geometry("1200x850")
-        
-        self.current_lang = "en"
-        self.angle = 0 # Para el movimiento del fondo
-        
-        # Diccionario maestro de internacionalización
-        self.texts = {
-            "en": {
-                "welcome": "INTEGRATED MANAGEMENT SYSTEM",
-                "subtitle": "Select a specialized service to begin",
-                "btn_lang": "Language: English",
-                "room": "Room Reservation",
-                "room_desc": "High-tech spaces for executive meetings.",
-                "equip": "Equipment Rental",
-                "equip_desc": "Pro-level hardware for intensive workloads.",
-                "consult": "Specialized Consultancy",
-                "consult_desc": "Strategic advice for software architecture.",
-                "manage": "OPEN SERVICE",
-                "footer": "Software FJ - Internal Operations Portal"
-            },
-            "es": {
-                "welcome": "SISTEMA INTEGRAL DE GESTIÓN",
-                "subtitle": "Seleccione un servicio especializado para comenzar",
-                "btn_lang": "Idioma: Español",
-                "room": "Reserva de Salas",
-                "room_desc": "Espacios de alta tecnología para reuniones ejecutivas.",
-                "equip": "Alquiler de Equipos",
-                "equip_desc": "Hardware nivel profesional para cargas intensas.",
-                "consult": "Asesoría Especializada",
-                "consult_desc": "Consultoría estratégica en arquitectura de software.",
-                "manage": "ABRIR SERVICIO",
-                "footer": "Software FJ - Portal de Operaciones Internas"
-            }
-        }
-        
-        self.setup_ui()
-        self.animate_background()
 
-    def setup_ui(self):
-        """Estructura visual centrada con fondo dinámico."""
-        # Canvas para el fondo con movimiento sutil
-        self.canvas = ttk.Canvas(self, highlightthickness=0)
-        self.canvas.place(x=0, y=0, relwidth=1, relheight=1)
+    logger.info("=" * 55)
+    logger.info("INICIO DE OPERACIONES DE DEMOSTRACIÓN — SOFTWARE FJ")
+    logger.info("=" * 55)
 
-        # Contenedor principal centrado
-        self.main_frame = ttk.Frame(self, bootstyle=DEFAULT)
-        self.main_frame.place(relx=0.5, rely=0.5, anchor=CENTER, relwidth=0.9)
+    # ── OPERACIÓN 1 — Registro válido de cliente ──────────────
+    try:
+        c1 = Cliente(1, "César", "Toro", "3001234567", "cesar@softwarefj.com")
+        app.clientes.append(c1)
+        logger.info("OP-01 ✅ Cliente válido registrado: César Toro")
+    except ClienteInvalidoError as e:
+        logger.error(f"OP-01 ❌ {e.mensaje}")
 
-        # Selector de idioma (Dropdown/Combobox)
-        lang_frame = ttk.Frame(self)
-        lang_frame.place(relx=0.98, rely=0.02, anchor=NE)
-        
-        self.combo_lang = ttk.Combobox(lang_frame, values=["English", "Español"], state="readonly", width=12)
-        self.combo_lang.current(0)
-        self.combo_lang.pack()
-        self.combo_lang.bind("<<ComboboxSelected>>", self.update_language)
+    # ── OPERACIÓN 2 — Registro válido de cliente ──────────────
+    try:
+        c2 = Cliente(2, "Ana", "Gómez", "3109876543", "ana@softwarefj.com")
+        app.clientes.append(c2)
+        logger.info("OP-02 ✅ Cliente válido registrado: Ana Gómez")
+    except ClienteInvalidoError as e:
+        logger.error(f"OP-02 ❌ {e.mensaje}")
 
-        self.render_content()
+    # ── OPERACIÓN 3 — Registro inválido de cliente ────────────
+    try:
+        c3 = Cliente(3, "", "Inválido", "abc", "sinformato")
+        app.clientes.append(c3)
+    except ClienteInvalidoError as e:
+        logger.error(f"OP-03 ❌ Cliente inválido detectado correctamente: {e.mensaje}")
 
-    def render_content(self):
-        """Genera los componentes visuales alineados al centro."""
-        for widget in self.main_frame.winfo_children():
-            widget.destroy()
+    # ── OPERACIÓN 4 — Registro válido de sala ─────────────────
+    try:
+        s1 = ReservaSala(1, 10)
+        app.servicios.append(s1)
+        costo = s1.calcular_costo(3)
+        logger.info(f"OP-04 ✅ Sala registrada | 3h | ${costo:,.0f} COP")
+    except (ServicioNoDisponibleError, DuracionInvalidaError) as e:
+        logger.error(f"OP-04 ❌ {e.mensaje}")
 
-        t = self.texts[self.current_lang]
+    # ── OPERACIÓN 5 — Sala con duración inválida ──────────────
+    try:
+        s_test = ReservaSala(99, 5)
+        s_test.calcular_costo(25)
+    except DuracionInvalidaError as e:
+        logger.error(f"OP-05 ❌ Duración inválida detectada correctamente: {e.mensaje}")
 
-        # Header Principal
-        ttk.Label(self.main_frame, text=t["welcome"], font=("Helvetica", 28, "bold"), 
-                  anchor=CENTER).pack(pady=(0, 5))
-        ttk.Label(self.main_frame, text=t["subtitle"], font=("Helvetica", 12), 
-                  bootstyle=SECONDARY, anchor=CENTER).pack(pady=(0, 50))
+    # ── OPERACIÓN 6 — Registro válido de equipo ───────────────
+    try:
+        s2 = AlquilerEquipo(2, "laptop", 3)
+        app.servicios.append(s2)
+        costo = s2.calcular_costo(5)
+        logger.info(f"OP-06 ✅ Equipo registrado | Laptop x3 | 5h | ${costo:,.0f} COP")
+    except (ParametroFaltanteError, DuracionInvalidaError) as e:
+        logger.error(f"OP-06 ❌ {e.mensaje}")
 
-        # Grid de tarjetas centrado
-        card_container = ttk.Frame(self.main_frame)
-        card_container.pack(fill=X)
+    # ── OPERACIÓN 7 — Equipo con tipo inválido ────────────────
+    try:
+        s_invalido = AlquilerEquipo(98, "helicoptero", 1)
+        app.servicios.append(s_invalido)
+    except ParametroFaltanteError as e:
+        logger.error(f"OP-07 ❌ Equipo inválido detectado correctamente: {e.mensaje}")
 
-        services = [
-            (t["room"], t["room_desc"], "info"),
-            (t["equip"], t["equip_desc"], "primary"),
-            (t["consult"], t["consult_desc"], "success")
-        ]
+    # ── OPERACIÓN 8 — Registro válido de asesoría ─────────────
+    try:
+        s3 = AsesoriaEspecializada(3, "experto", "César David Toro")
+        app.servicios.append(s3)
+        costo = s3.calcular_costo_con_iva(2)
+        logger.info(f"OP-08 ✅ Asesoría registrada | Experto | 2h + IVA | ${costo:,.0f} COP")
+    except (ParametroFaltanteError, DuracionInvalidaError) as e:
+        logger.error(f"OP-08 ❌ {e.mensaje}")
 
-        for i, (title, desc, color) in enumerate(services):
-            card = ttk.Labelframe(card_container, text=f" 0{i+1} ", padding=30, bootstyle=color)
-            card.grid(row=0, column=i, padx=15, sticky=NSEW)
-            card_container.columnconfigure(i, weight=1)
+    # ── OPERACIÓN 9 — Reserva válida confirmada ───────────────
+    try:
+        r1 = Reserva(1, app.clientes[0], app.servicios[0], 3)
+        r1.confirmar()
+        costo = r1.procesar(10)
+        app.reservas.append(r1)
+        logger.info(f"OP-09 ✅ Reserva confirmada y procesada | 10% desc | ${costo:,.0f} COP")
+    except (ReservaInvalidaError, DuracionInvalidaError, ServicioNoDisponibleError) as e:
+        logger.error(f"OP-09 ❌ {e.mensaje}")
 
-            ttk.Label(card, text=title, font=("Helvetica", 14, "bold"), wraplength=200).pack(pady=10)
-            ttk.Label(card, text=desc, font=("Helvetica", 10), wraplength=200, justify=CENTER).pack(pady=10)
-            ttk.Button(card, text=t["manage"], bootstyle=color, width=20).pack(pady=15)
+    # ── OPERACIÓN 10 — Reserva inválida (duración fuera rango) ─
+    try:
+        r_invalida = Reserva(99, app.clientes[1], app.servicios[0], 99)
+        app.reservas.append(r_invalida)
+    except DuracionInvalidaError as e:
+        logger.error(f"OP-10 ❌ Reserva inválida detectada correctamente: {e.mensaje}")
 
-        # Footer
-        ttk.Label(self.main_frame, text=t["footer"], font=("Helvetica", 9), 
-                  bootstyle=SECONDARY).pack(pady=(60, 0))
+    logger.info("=" * 55)
+    logger.info("FIN DE OPERACIONES DE DEMOSTRACIÓN — 10/10 COMPLETADAS")
+    logger.info("=" * 55)
 
-    def update_language(self, event):
-        """Maneja el cambio de idioma de toda la plataforma."""
-        selection = self.combo_lang.get()
-        self.current_lang = "en" if selection == "English" else "es"
-        self.render_content()
-
-    def animate_background(self):
-        """Crea un efecto de gradiente en movimiento muy suave."""
-        self.angle += 0.02
-        # Colores sutiles que oscilan
-        color_val = int(240 + 10 * math.sin(self.angle))
-        color_hex = f'#{color_val:02x}{color_val:02x}{color_val+5:02x}'
-        self.canvas.config(bg=color_hex)
-        self.after(50, self.animate_background)
 
 if __name__ == "__main__":
-    app = SoftwareFJ_GUI()
+    app = SoftwareFJ_App()
+    ejecutar_operaciones_demo(app)
     app.mainloop()

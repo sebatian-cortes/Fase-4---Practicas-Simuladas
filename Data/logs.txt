@@ -1,0 +1,57 @@
+============================================================
+  SISTEMA DE LOGS - SOFTWARE FJ
+============================================================
+
+[2026-05-11 13:55:53] [INFO] =======================================================
+[2026-05-11 13:55:53] [INFO] INICIO DE OPERACIONES DE DEMOSTRACIÓN — SOFTWARE FJ
+[2026-05-11 13:55:53] [INFO] =======================================================
+[2026-05-11 13:55:53] [INFO] Cliente registrado exitosamente: César Toro | ID=1
+[2026-05-11 13:55:53] [INFO] OP-01 ✅ Cliente válido registrado: César Toro
+[2026-05-11 13:55:53] [INFO] Cliente registrado exitosamente: Ana Gómez | ID=2
+[2026-05-11 13:55:53] [INFO] OP-02 ✅ Cliente válido registrado: Ana Gómez
+[2026-05-11 13:55:53] [ERROR] Validación fallida en nombre: El nombre no puede estar vacío.
+[2026-05-11 13:55:53] [ERROR] OP-03 ❌ Cliente inválido detectado correctamente: El nombre no puede estar vacío.
+[2026-05-11 13:55:53] [INFO] Servicio inicializado: Reserva de Sala Ejecutiva | Precio base: $85,000 COP
+[2026-05-11 13:55:53] [INFO] Sala ejecutiva configurada | Capacidad: 10 personas
+[2026-05-11 13:55:53] [INFO] Costo calculado | Sala | 3h | $255,000 COP
+[2026-05-11 13:55:53] [INFO] OP-04 ✅ Sala registrada | 3h | $255,000 COP
+[2026-05-11 13:55:53] [INFO] Servicio inicializado: Reserva de Sala Ejecutiva | Precio base: $85,000 COP
+[2026-05-11 13:55:53] [INFO] Sala ejecutiva configurada | Capacidad: 5 personas
+[2026-05-11 13:55:53] [ERROR] Error en cálculo de costo de sala: Duración inválida: 25h. Rango permitido: 1-12 horas.
+[2026-05-11 13:55:53] [ERROR] OP-05 ❌ Duración inválida detectada correctamente: Duración inválida: 25h. Rango permitido: 1-12 horas.
+[2026-05-11 13:55:53] [INFO] Servicio inicializado: Alquiler de Laptop | Precio base: $225,000 COP
+[2026-05-11 13:55:53] [INFO] Equipo configurado | Tipo: laptop | Cantidad: 3 | Tarifa: $225,000 COP/hora
+[2026-05-11 13:55:53] [INFO] Costo calculado | Laptop x3 | 5h | $1,125,000 COP
+[2026-05-11 13:55:53] [INFO] OP-06 ✅ Equipo registrado | Laptop x3 | 5h | $1,125,000 COP
+[2026-05-11 13:55:53] [ERROR] Error al configurar equipo 'helicoptero': Equipo 'helicoptero' no disponible. Opciones válidas: laptop, servidor, proyector, camara, drone
+[2026-05-11 13:55:53] [ERROR] OP-07 ❌ Equipo inválido detectado correctamente: Equipo 'helicoptero' no disponible. Opciones válidas: laptop, servidor, proyector, camara, drone
+[2026-05-11 13:55:53] [INFO] Servicio inicializado: Asesoría Experto | Precio base: $450,000 COP
+[2026-05-11 13:55:53] [INFO] Asesoría configurada | Nivel: experto | Asesor: César David Toro | Tarifa: $450,000 COP/hora
+[2026-05-11 13:55:53] [INFO] Costo calculado | Asesoría experto | 2h | $900,000 COP (sin IVA)
+[2026-05-11 13:55:53] [INFO] IVA aplicado | Asesoría experto | $900,000 + 19% IVA = $1,071,000 COP
+[2026-05-11 13:55:53] [INFO] OP-08 ✅ Asesoría registrada | Experto | 2h + IVA | $1,071,000 COP
+[2026-05-11 13:55:53] [INFO] Costo calculado | Sala | 3h | $255,000 COP
+[2026-05-11 13:55:53] [INFO] Reserva #1 creada | Cliente: César Toro | Servicio: Reserva de Sala Ejecutiva | Duración: 3h | Costo: $255,000 COP
+[2026-05-11 13:55:53] [INFO] Reserva #1 confirmada | Cliente: César | Costo final: $255,000 COP
+[2026-05-11 13:55:53] [INFO] Costo calculado | Sala | 3h | $255,000 COP
+[2026-05-11 13:55:53] [INFO] Descuento aplicado | Sala | 10% | $255,000 → $229,500 COP
+[2026-05-11 13:55:53] [INFO] Reserva #1 procesada exitosamente | Descuento: 10% | Costo final: $229,500 COP
+[2026-05-11 13:55:53] [INFO] OP-09 ✅ Reserva confirmada y procesada | 10% desc | $229,500 COP
+[2026-05-11 13:55:53] [ERROR] Error al crear reserva #99: Duración inválida: 99h para el servicio 'Reserva de Sala Ejecutiva'.
+[2026-05-11 13:55:53] [ERROR] OP-10 ❌ Reserva inválida detectada correctamente: Duración inválida: 99h para el servicio 'Reserva de Sala Ejecutiva'.
+[2026-05-11 13:55:53] [INFO] =======================================================
+[2026-05-11 13:55:53] [INFO] FIN DE OPERACIONES DE DEMOSTRACIÓN — 10/10 COMPLETADAS
+[2026-05-11 13:55:53] [INFO] =======================================================
+[2026-05-11 13:56:17] [INFO] Servicio inicializado: Reserva de Sala Ejecutiva | Precio base: $85,000 COP
+[2026-05-11 13:56:17] [INFO] Sala ejecutiva configurada | Capacidad: 2 personas
+[2026-05-11 13:56:17] [INFO] Costo calculado | Sala | 1h | $85,000 COP
+[2026-05-11 13:56:17] [INFO] Servicio registrado desde GUI: Sala Ejecutiva #4 | Capacidad: 2 personas | $85,000 COP/hora
+[2026-05-11 13:56:55] [INFO] Servicio inicializado: Alquiler de Laptop | Precio base: $150,000 COP
+[2026-05-11 13:56:55] [INFO] Equipo configurado | Tipo: laptop | Cantidad: 2 | Tarifa: $150,000 COP/hora
+[2026-05-11 13:56:55] [INFO] Costo calculado | Laptop x2 | 1h | $150,000 COP
+[2026-05-11 13:56:55] [INFO] Servicio registrado desde GUI: Alquiler #5 | Laptop x2 | $150,000 COP/hora
+[2026-05-11 13:57:24] [INFO] Servicio inicializado: Asesoría Experto | Precio base: $450,000 COP
+[2026-05-11 13:57:24] [INFO] Asesoría configurada | Nivel: experto | Asesor: César Toro | Tarifa: $450,000 COP/hora
+[2026-05-11 13:57:24] [INFO] Costo calculado | Asesoría experto | 3h | $1,350,000 COP (sin IVA)
+[2026-05-11 13:57:24] [INFO] IVA aplicado | Asesoría experto | $1,350,000 + 19% IVA = $1,606,500 COP
+[2026-05-11 13:57:24] [INFO] Servicio registrado desde GUI: Asesoría #6 | Nivel: Experto | Asesor: César Toro | $450,000 COP/hora
