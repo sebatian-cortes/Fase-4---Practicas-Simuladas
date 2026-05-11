@@ -1,0 +1,3 @@
+Juan,Perez,123456789,juan@gmail.com,usuario
+Ana,Gomez,987654321,ana@gmail.com,cliente
+Carlos,Ruiz,555444333,carlos@gmail.com,usuario
